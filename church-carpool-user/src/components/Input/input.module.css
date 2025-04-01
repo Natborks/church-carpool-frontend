@@ -1,5 +1,12 @@
 .input {
-  padding: var(--s-1);
+  /* padding: var(--s-1);
   border: 1px solid var(--color-dark);
-  border-radius: var(--s-3);
+  border-radius: var(--s-3); */
+
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  color: #000000;
 }

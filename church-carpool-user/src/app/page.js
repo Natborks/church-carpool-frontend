@@ -3,17 +3,30 @@ import React from "react";
 import Stack from "@/components/Stack";
 import Box from "@/components/Box";
 import Input from "@/components/Input";
-import Button from "@/components/Button";
-import FormWrapper from "@/components/FormWrapper";
 import Card from "@/components/Card/Card";
 import Center from "@/components/Center";
 import { ChevronLeft } from "react-feather";
 import TextArea from "@/components/TextArea";
 import { useMutation } from "@tanstack/react-query";
 import { requestRide } from "@/api/requestRideAPI";
+import FormWrapper from "@/components/FormWrapper";
+import Label from "@/components/Label";
+import ButtonSecondary from "@/components/ButtonSecondary/ButtonSecondary";
+import ButtonPrimary from "@/components/ButtonPrimary/ButtonPrimary";
+
+import FormHeader from "@/components/FormHeader/FormHeader";
+import { useToast } from "@/hooks/useToast";
+import ToastDemo from "@/components/Toast/Toast";
 
 export default function Home() {
   const [animated, setAnimated] = React.useState(false);
+
+  const {
+    isOpen: isToastOpen,
+    setIsOpen: setToastOpen,
+    toatsMessage,
+    setToastMessage,
+  } = useToast();
   const [step, setStep] = React.useState(1);
   const [form, setForm] = React.useState({
     name: "",
@@ -41,8 +54,17 @@ export default function Home() {
     mutationFn: requestRide,
     onSuccess: () => {
       // Invalidate and refetch
-      console.log("success");
+
+      setToastOpen(true);
+      setToastMessage({
+        title: "Success",
+        message: "Form submitted successfully",
+      });
       setForm({});
+    },
+    onError: (error) => {
+      setToastOpen(true);
+      setToastMessage({ title: "Error", message: error.message });
     },
   });
 
@@ -64,102 +86,110 @@ export default function Home() {
 
   return (
     <Center>
-      <FormWrapper>
-        <Card>
-          {step > 1 && (
-            <div>
-              <button style={{ display: "flex", alignItems: "center" }}>
-                <ChevronLeft size={28} /> <span onClick={handleBack}>Back</span>
-              </button>
-            </div>
-          )}
-
-          <Stack gap={"s3"}>
-            <Center>
-              <Box padding={"s-4"}>
-                <h1>CMFI</h1>
-              </Box>
-            </Center>
-            <div
-              style={{
-                animation: animated ? "fade-in 800ms" : undefined,
-              }}
-            >
+      <Card className="">
+        <FormWrapper>
+          <FormHeader>
+            <form onSubmit={(e) => e.preventDefault()}>
               <Stack gap={"s0"}>
-                <Stack gap={"s0"}>
-                  <h2>Request a ride</h2>
-                  <p>Fill the Form Below to Request a Ride</p>
-                </Stack>
-                <Stack gap={"s0"}>
-                  {step == 1 && (
-                    <>
+                {step == 1 && (
+                  <>
+                    <div>
+                      <Label htmlFor="name">Name</Label>
                       <Input
-                        placeholder={"Name"}
+                        id="name"
+                        placeholder={"John Doe"}
                         onChange={handleChange}
                         name={"name"}
+                        value={form.name}
                       />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
                       <Input
-                        placeholder={"Email Address"}
-                        onChange={handleChange}
-                        name={"email"}
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        value={form.email}
                       />
-                    </>
-                  )}
-                  {step == 2 && (
-                    <>
-                      <div>
-                        <Stack gap={"s-2"}>
-                          <Input
-                            placeholder={"Pickup Address"}
-                            onChange={handleChange}
-                            name={"address"}
-                            value={form.address}
-                          />
-                          <span></span>
-                        </Stack>
-                      </div>
+                    </div>
+                  </>
+                )}
+                {step == 2 && (
+                  <>
+                    <div>
+                      <Label htmlFor="address">Address</Label>
+                      <Input
+                        placeholder={"Pickup Address"}
+                        onChange={handleChange}
+                        name={"address"}
+                        value={form.address}
+                      />
+                    </div>
 
-                      <div>
-                        <Stack gap={"s-2"}>
-                          <Input
-                            placeholder={"Number of Adults"}
-                            onChange={handleChange}
-                            name={"noOfAdults"}
-                          />
-                          <span>How many adults are you coming with?</span>
-                        </Stack>
-                      </div>
+                    <div>
+                      <Label htmlFor="noOfAdults">Adults</Label>
+                      <Input
+                        id="noOfAdults"
+                        placeholder={"Number of Adults"}
+                        onChange={handleChange}
+                        name={"noOfAdults"}
+                        value={form.noOfAdults}
+                      />
+                      <span>How many adults are you coming with?</span>
+                    </div>
 
-                      <div>
-                        <Stack gap={"s-2"}>
-                          <Input
-                            placeholder={"Number of Children"}
-                            onChange={handleChange}
-                            name={"noOfChildren"}
-                          />
-                          <span>
-                            How many childern under the age of 10 are you coming
-                            with?
-                          </span>
-                        </Stack>
-                      </div>
-                    </>
-                  )}
-                  {step == 3 && (
-                    <Stack gap={"s-3"}>
-                      <TextArea placeholder={"Additional Information"} />
-                      <span>Additional Information</span>
-                    </Stack>
-                  )}
-                  <Button onClick={handleContinue}>Continue</Button>
-                </Stack>
+                    <div>
+                      <Label htmlFor="noOfChildren">Children</Label>
+                      <Input
+                        id="noOfChildren"
+                        placeholder={"Number of Children"}
+                        onChange={handleChange}
+                        name={"noOfChildren"}
+                        value={form.noOfChildren}
+                      />
+                      <span>
+                        How many childern under the age of 10 are you coming
+                        with?
+                      </span>
+                    </div>
+                  </>
+                )}
+                {step == 3 && (
+                  <div>
+                    <Label htmlFor="message">Message</Label>
+                    <TextArea
+                      id="message"
+                      name="message"
+                      placeholder="Enter your message"
+                      rows={4}
+                    />
+                    <span>Any extra accomodations you will be requesting</span>
+                  </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    gap: "12px",
+                  }}
+                >
+                  <ButtonSecondary onClick={handleBack}>Back</ButtonSecondary>
+                  <ButtonPrimary type={"button"} onClick={handleContinue}>
+                    Next
+                  </ButtonPrimary>
+                </div>
               </Stack>
-            </div>
-
-            <p>Privacy</p>
-          </Stack>
-        </Card>
-      </FormWrapper>
+            </form>
+          </FormHeader>
+        </FormWrapper>
+      </Card>
+      <ToastDemo
+        open={isToastOpen}
+        setOpen={setToastOpen}
+        title={toatsMessage.title}
+        message={toatsMessage.message}
+      />
     </Center>
   );
 }

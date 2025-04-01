@@ -36,7 +36,7 @@ ol[role="list"] {
 /* Set core body defaults */
 body {
   margin: 0;
-  min-height: 100vh;
+  min-height: 100%;
   line-height: 1.5;
   --ratio: 1.5;
   --zero: 0rem;
@@ -96,6 +96,7 @@ h2 {
 p,
 span {
   color: var(--color-secondary-alt);
+  font-size: var(--s0);
 }
 
 span {
@@ -111,6 +112,7 @@ button,
 input,
 label {
   line-height: 1.1;
+  margin: 0;
 }
 
 /* Balance text wrapping on headings */
@@ -139,8 +141,8 @@ input,
 button,
 textarea,
 select {
+  font-size: var(--s0);
   font-family: inherit;
-  font-size: inherit;
 }
 
 /* Make sure textareas without a rows attribute are not tiny */
