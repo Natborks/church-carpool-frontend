@@ -1,0 +1,19 @@
+.box {
+  padding: var(--s1);
+  border: var(--border-thin) solid;
+}
+
+.box * {
+  color: inherit;
+}
+
+/* .box.invert {
+} */
+
+/* Vendor prefix for other browsers */
+.box::-webkit-scrollbar {
+  background-color: var(--color-track);
+}
+.box::-webkit-scrollbar-thumb {
+  background-color: var(--color-thumb);
+}

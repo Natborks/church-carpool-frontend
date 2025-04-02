@@ -1,0 +1,4 @@
+.center {
+  box-sizing: content-box;
+  margin-inline: auto;
+}
