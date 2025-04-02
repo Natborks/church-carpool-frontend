@@ -1,0 +1,20 @@
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  border: 1px solid var(--color-secondary);
+  padding: var(--s-1);
+  border-radius: 10px;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.card > * {
+  flex-grow: 1;
+  flex-basis: calc((30rem - 100%) * 999);
+}
+
+.card > :nth-last-child(n + 3),
+.card > :nth-last-child(n + 3) ~ * {
+  flex-basis: 100%;
+}
