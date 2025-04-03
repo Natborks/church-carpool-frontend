@@ -22,7 +22,7 @@ const ToastDemo = ({ open, setOpen, title, message }) => {
         <Toast.Title className={styles.ToastTitle}>{title}</Toast.Title>
         <Toast.Description asChild>{message}</Toast.Description>
         <Toast.Action className={styles.ToastAction} asChild altText={message}>
-          <button className={styles["Button small green"]}>Undo</button>
+          <button className={styles["Button small green"]}>Close</button>
         </Toast.Action>
       </Toast.Root>
       <Toast.Viewport className={styles.ToastViewport} />

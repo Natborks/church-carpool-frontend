@@ -15,29 +15,36 @@ export default function ViewEvent() {
   const columns = ["Name", "Email", "Phone", "Adults", "Children", "Address"];
   const [data, setData] = useState([]);
 
-  useEffect(() =>{
-    fetch('https://fffa-193-149-173-107.ngrok-free.app/api/v1/church-carpool/ride/query/ride-requests' , {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(response => response.json())
-    .then(rows => {
-      const newData = rows.map((row)=>[
-        row.name, row.email, row.phone, row.noOfAdults,
-        row.noOfChildren, row.address
-      ]);
-      setData(newData);
-    })
-    .catch(error => console.error('Error:', error));
+  useEffect(() => {
+    fetch(
+      "http://localhost:8080/api/v1/church-carpool/ride/query/ride-requests",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then((rows) => {
+        const newData = rows.map((row) => [
+          row.name,
+          row.email,
+          row.phone,
+          row.noOfAdults,
+          row.noOfChildren,
+          row.address,
+        ]);
+        setData(newData);
+      })
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (
     <Box>
       <Center>
-      <div>
-        <h2>Ride Requests</h2>
-        <Table columns={columns} data={data}/>
-      </div>
+        <div>
+          <h2>Ride Requests</h2>
+          <Table columns={columns} data={data} />
+        </div>
       </Center>
     </Box>
   );

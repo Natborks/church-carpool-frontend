@@ -1,11 +1,9 @@
 "use client";
 import React from "react";
 import Stack from "@/components/Stack";
-import Box from "@/components/Box";
 import Input from "@/components/Input";
 import Card from "@/components/Card/Card";
 import Center from "@/components/Center";
-import { ChevronLeft } from "react-feather";
 import TextArea from "@/components/TextArea";
 import { useMutation } from "@tanstack/react-query";
 import { requestRide } from "@/api/requestRideAPI";
@@ -31,10 +29,11 @@ export default function Home() {
   const [form, setForm] = React.useState({
     name: "",
     email: "",
-    phone: 0,
-    noOfAdults: 0,
-    noOfChildren: 0,
+    phone: "",
+    noOfAdults: "",
+    noOfChildren: "",
     address: "",
+    phone: "",
   });
 
   React.useEffect(() => {
@@ -96,6 +95,7 @@ export default function Home() {
                     <div>
                       <Label htmlFor="name">Name</Label>
                       <Input
+                        label={"Name"}
                         id="name"
                         placeholder={"John Doe"}
                         onChange={handleChange}
@@ -109,8 +109,20 @@ export default function Home() {
                         type="email"
                         id="email"
                         name="email"
-                        placeholder="Enter your email"
+                        placeholder="johndoe@email.com"
+                        onChange={handleChange}
                         value={form.email}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone">Phone number</Label>
+                      <Input
+                        type="phone"
+                        id="phone"
+                        name="phone"
+                        placeholder="709123456"
+                        onChange={handleChange}
+                        value={form.phone}
                       />
                     </div>
                   </>
@@ -131,7 +143,7 @@ export default function Home() {
                       <Label htmlFor="noOfAdults">Adults</Label>
                       <Input
                         id="noOfAdults"
-                        placeholder={"Number of Adults"}
+                        placeholder={1}
                         onChange={handleChange}
                         name={"noOfAdults"}
                         value={form.noOfAdults}
@@ -143,7 +155,7 @@ export default function Home() {
                       <Label htmlFor="noOfChildren">Children</Label>
                       <Input
                         id="noOfChildren"
-                        placeholder={"Number of Children"}
+                        placeholder={"0"}
                         onChange={handleChange}
                         name={"noOfChildren"}
                         value={form.noOfChildren}
@@ -174,9 +186,15 @@ export default function Home() {
                     gap: "12px",
                   }}
                 >
-                  <ButtonSecondary onClick={handleBack}>Back</ButtonSecondary>
+                  {step > 1 && (
+                    <ButtonSecondary onClick={handleBack}>Back</ButtonSecondary>
+                  )}
                   <ButtonPrimary type={"button"} onClick={handleContinue}>
-                    Next
+                    {mutation.isPending
+                      ? "Submitting..."
+                      : step == 3
+                      ? "Submit"
+                      : "Next"}
                   </ButtonPrimary>
                 </div>
               </Stack>
