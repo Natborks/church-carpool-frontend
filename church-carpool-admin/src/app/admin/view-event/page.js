@@ -15,29 +15,33 @@ export default function ViewEvent() {
   const columns = ["Event Name", "Start Date", "Drivers"];
   const [data, setData] = useState([]);
 
-  useEffect(() =>{
-    fetch('https://fffa-193-149-173-107.ngrok-free.app/api/v1/church-carpool/event/query/get-events' , {
-      method: "POST",
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(response => response.json())
-    .then(rows => {
-      const newData = rows.map((row)=>[
-        row.eventName, row.startDate, row.noOfDrivers
-      ]);
-      setData(newData);
-    })
-    .catch(error => console.error('Error:', error));
+  useEffect(() => {
+    fetch(
+      "http://localhost:8080/api/v1/church-carpool/event/query/get-events",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => response.json())
+      .then((rows) => {
+        const newData = rows.map((row) => [
+          row.eventName,
+          row.startDate,
+          row.noOfDrivers,
+        ]);
+        setData(newData);
+      })
+      .catch((error) => console.error("Error:", error));
   }, []);
-
 
   return (
     <Box>
       <Center>
-      <div>
-        <h2>Events Created</h2>
-        <Table columns={columns} data={data}/>
-      </div>
+        <div>
+          <h2>Events Created</h2>
+          <Table columns={columns} data={data} />
+        </div>
       </Center>
     </Box>
   );

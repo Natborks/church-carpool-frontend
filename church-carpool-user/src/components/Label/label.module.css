@@ -1,6 +1,6 @@
 .label {
   display: block;
-  margin-bottom: 4px;
+  margin-block-end: 4px;
   font-weight: 500;
   color: #000000;
 }

@@ -1,13 +1,14 @@
 import React from "react";
 import Button from "../Button/Button";
 
-function ButtonSecondary({ children, onClick }) {
+function ButtonSecondary({ children, onClick, ...rest }) {
   const buttonStyle = {
     color: "#000000",
     border: "1px solid #d1d5db",
   };
   return (
     <Button
+      {...rest}
       style={buttonStyle}
       onClick={onClick}
       onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#f3f4f6")}
